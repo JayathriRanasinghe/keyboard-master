@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#sentence {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  white-space: pre-wrap;
+}
+
+#inputField {
+  font-size: 24px;
+  padding: 10px;
+  width: 300px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 20px;
+  color: red;
+}
+
+#speed {
+  margin-top: 10px;
+  font-size: 20px;
+  color: blue;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.highlight {
+  color: orange;
+  font-weight: bold;
+}

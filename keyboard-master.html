@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+
+    <div id="sentence"></div>
+    <input type="text" id="inputField" placeholder="Type the sentence here..." autofocus>
+    <div id="result"></div>
+    <div id="speed"></div>
+    <div id="timer">Time: 0s</div> <!-- Timer display -->
+
+    <script>
+        const sentence = "The quick brown fox jumps over the lazy dog.";
+        const sentenceDiv = document.getElementById('sentence');
+        const inputField = document.getElementById('inputField');
+        const resultDiv = document.getElementById('result');
+        const speedDiv = document.getElementById('speed');
+        const timerDiv = document.getElementById('timer');
+
+        let startTime;
+        let currentIndex = 0;
+        let timerInterval;
+
+        // Function to update the displayed sentence with highlighting
+        function updateSentenceDisplay() {
+            const highlightedSentence = sentence.split('').map((char, index) => {
+                if (index === currentIndex) {
+                    return `<span class="highlight">${char}</span>`;
+                }
+                return char;
+            }).join('');
+
+            sentenceDiv.innerHTML = highlightedSentence;
+        }
+
+        // Initialize sentence display
+        updateSentenceDisplay();
+
+        // Start timer function
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(() => {
+                const elapsedTime = Math.floor((new Date() - startTime) / 1000); // Time in seconds
+                timerDiv.innerText = "Time: " + elapsedTime + "s";
+            }, 1000);
+        }
+
+        inputField.addEventListener('focus', function() {
+            if (!startTime) {
+                startTimer(); // Start the timer on focus
+            }
+        });
+
+        inputField.addEventListener('input', function() {
+            const userInput = inputField.value;
+
+            // Check if the input is correct up to the current character
+            if (userInput === sentence) {
+                clearInterval(timerInterval); // Stop the timer
+                const timeTaken = (new Date() - startTime) / 1000; // Time in seconds
+                const wordsTyped = sentence.split(' ').length;
+                const speed = Math.round((wordsTyped / timeTaken) * 60); // WPM calculation
+                resultDiv.innerText = "Correct!";
+                resultDiv.className = "correct";
+                speedDiv.innerText = "Your typing speed: " + speed + " WPM";
+            } else if (userInput.length > 0 && userInput === sentence.slice(0, userInput.length)) {
+                // Update current index if the input is correct
+                currentIndex = userInput.length;
+                updateSentenceDisplay();
+                resultDiv.innerText = "Keep typing...";
+                resultDiv.className = ""; // Reset the class
+            } else {
+                resultDiv.innerText = "Wrong!";
+                resultDiv.className = "wrong";
+            }
+        });
+    </script>
+
+</body>
+</html>
